@@ -14,7 +14,11 @@ const PORT = process.env.PORT || 5000;
 // ✅ Updated CORS: allows both localhost and Netlify frontend
 app.use(
   cors({
-    origin: "https://signee.netlify.app", // <-- no trailing slash
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://signee.netlify.app",
+    ],
     credentials: true,
   })
 );
