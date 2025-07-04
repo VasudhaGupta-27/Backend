@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://signee.netlify.app/api", // change if deployed
+  baseURL:  "https://backend-jnwc.onrender.com/api",
+
 });
 
 export default API;
