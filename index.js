@@ -27,7 +27,7 @@ app.use(express.json());
 
 // Static files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use("/signed", express.static(path.join(__dirname, "signed")));
+app.use('/signed', express.static(path.join(__dirname, 'signed')));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
