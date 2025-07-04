@@ -286,12 +286,7 @@ router.post("/finalize", auth, async (req, res) => {
     }
 
     const newFilename = `signed-${Date.now()}.pdf`;
-    // Save signed PDFs in uploads/signed for consistent public access
-    const uploadsSignedDir = path.join(__dirname, "..", "uploads", "signed");
-    if (!fs.existsSync(uploadsSignedDir)) {
-      fs.mkdirSync(uploadsSignedDir, { recursive: true });
-    }
-    const newFilePath = path.join(uploadsSignedDir, newFilename);
+    const newFilePath = path.join(__dirname, "..", "signed", newFilename);
     const pdfBytes = await pdfDoc.save();
     await Signature.updateMany(
       { file: fileId, status: "pending" },
@@ -301,13 +296,13 @@ router.post("/finalize", auth, async (req, res) => {
 
     fs.writeFileSync(newFilePath, pdfBytes);
 
-    // Store the path relative to uploads for frontend access
-    document.signedFile = `uploads/signed/${newFilename}`;
+    // When you finalize and save the signed PDF, store the path in the Document model:
+    document.signedFile = `signed/${newFilename}`;
     await document.save();
 
     res.json({
       msg: "Signed PDF generated sucessfully",
-      signedFile: `uploads/signed/${newFilename}`,
+      signedFile: `signed/${newFilename}`,
     });
   } catch (error) {
     console.error("❌ Error finalizing signed PDF:", error);
